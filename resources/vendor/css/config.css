@@ -1,0 +1,25 @@
+.slide-fade-enter{
+    transform: translateX(10px);
+    opacity: 0;
+}
+
+.slide-fade-enter-active,
+.slide-fade-leave-active{
+    transition: all 0.2s ease;
+}
+
+.site-fade-leave-to{
+    transform: translateX(-10px);
+}
+
+.btnWidth{
+    width: 49%;
+}
+
+.el-select{
+    width: 100%;
+}
+
+.user-block{
+    list-style: none;
+}
