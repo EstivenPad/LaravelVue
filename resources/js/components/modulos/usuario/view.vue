@@ -1,101 +1,125 @@
 <template>
-  <div class="content-header">
-    <div class="container-fluid">
-      <div class="row mb-2">
-        <div class="col-sm-6">
-          <h1 class="m-0 text-dark">Editar Usuario</h1>
-        </div><!-- /.col -->
-      </div><!-- /.row -->
-    </div><!-- /.container-fluid -->
-
+  <div>
+    <div class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1 class="m-0 text-dark">Usuario</h1>
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
     <div class="content container-fluid">
-      <div class="card">
-        <div class="card-header">
-          <div class="card-tools">
-            <router-link class="btn btn-info btn-sm" :to="'/usuario'">
-              <i class="fas fa-arrow-left"></i> Regresar
-            </router-link>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="container-fluid">
-            <div class="card card-info">
-              <div class="card-header">
-                <h3 class="card-title">Formulario Editar Usuario</h3>
+      <div class="row">
+        <div class="col-md-4">
+          <!-- Profile Image -->
+          <div class="card card-primary card-outline">
+            <div class="card-body box-profile">
+              <div class="text-center">
+                <template v-if="!fillVerUsuario.cRutaArchivo">
+                  <img class="profile-user-img img-fluid img-circle" src="/img/user8-128x128.jpg" alt="User profile picture">
+                </template>
+                <template v-else>
+                  <img :src="fillVerUsuario.cRutaArchivo" :alt="cNombreCompleto" class="profile-user-img img-fluid img-circle">
+                </template>
               </div>
+
+              <h3 class="profile-username text-center">{{ cNombreCompleto }}</h3>
+
+              <p class="text-muted text-center">Vendedor</p>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+
+          <!-- About Me Box -->
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">Sobre Mi</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+              <strong><i class="fab fa-mailchimp"></i> Nombre Completo</strong>
+
+              <p class="text-muted" v-text="cNombreCompleto"></p>
+
+              <hr>
+
+              <strong><i class="fas fa-envelope-open-text"></i> Correo Electrónico</strong>
+
+              <p class="text-muted" v-text="this.fillVerUsuario.cCorreo"></p>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+              <div class="card-header p-2">
+                <ul class="nav nav-pills">
+                  <li class="nav-item"><a class="nav-link active" href="#settings" data-toggle="tab">Settings</a></li>
+                </ul>
+              </div><!-- /.card-header -->
               <div class="card-body">
-                <form role="form">
-                  <div class="row">
-                    <div class="col-md-6">
+                <div class="tab-content">
+                  <div class="tab-pane active" id="settings">
+                    <form class="form-horizontal">
                       <div class="form-group row">
                         <label class="col-md-3 col-form-label">Primer Nombre</label>
                         <div class="col-md-9">
                           <input type="text" class="form-control" v-model="fillEditarUsuario.cPrimerNombre" @keyup.enter="setEditarUsuario()">
                         </div>
                       </div>
-                    </div>
-                    <div class="col-md-6">
                       <div class="form-group row">
                         <label class="col-md-3 col-form-label">Segundo Nombre</label>
                         <div class="col-md-9">
                           <input type="text" class="form-control" v-model="fillEditarUsuario.cSegundoNombre" @keyup.enter="setEditarUsuario()">
                         </div>
                       </div>
-                    </div>
-                    <div class="col-md-6">
                       <div class="form-group row">
                         <label class="col-md-3 col-form-label">Apellido</label>
                         <div class="col-md-9">
                           <input type="text" class="form-control" v-model="fillEditarUsuario.cApellido" @keyup.enter="setEditarUsuario()">
                         </div>
                       </div>
-                    </div>
-                    <div class="col-md-6">
                       <div class="form-group row">
                         <label class="col-md-3 col-form-label">Usuario</label>
                         <div class="col-md-9">
                           <input type="text" class="form-control" v-model="fillEditarUsuario.cUsuario" @keyup.enter="setEditarUsuario()">
                         </div>
                       </div>
-                    </div>
-                    <div class="col-md-6">
                       <div class="form-group row">
                         <label class="col-md-3 col-form-label">Correo Electrónico</label>
                         <div class="col-md-9">
                           <input type="email" class="form-control" v-model="fillEditarUsuario.cCorreo" @keyup.enter="setEditarUsuario()">
                         </div>
                       </div>
-                    </div>
-                    <div class="col-md-6">
                       <div class="form-group row">
                         <label class="col-md-3 col-form-label">Contraseña</label>
                         <div class="col-md-9">
                           <el-input placeholder="Ingrese una Contraseña" v-model="fillEditarUsuario.cContrasena" @keyup.enter="setEditarUsuario" show-password></el-input>
                         </div>
                       </div>
-                    </div>
-                    <div class="col-md-6">
                       <div class="form-group row">
                         <label class="col-md-3 col-form-label">Fotografia</label>
                         <div class="col-md-9">
                           <input type="file" class="form-control" @change="getFile">
                         </div>
                       </div>
-                    </div>
+                      <div class="form-group row">
+                        <div class="col-sm-12">
+                          <button class="btn btn-flat btn-info btnFull" @click.prevent="setEditarUsuario" v-loading.fullscreen.lock="fullscreenLoading">Editar</button>
+                        </div>
+                      </div>
+                    </form>
                   </div>
-                </form>
-              </div>                
-              <div class="card-footer">
-                <div class="row">
-                  <div class="col-md-4 offset-4">
-                    <button class="btn btn-flat btn-info btnWidth" @click.prevent="setEditarUsuario" v-loading.fullscreen.lock="fullscreenLoading">Editar</button>
-                    <button class="btn btn-flat btn-default btnWidth" @click.prevent="limpiarCampos">Limpiar</button>
-                  </div>
+                  <!-- /.tab-pane -->
                 </div>
-              </div>
+                <!-- /.tab-content -->
+              </div><!-- /.card-body -->
             </div>
+            <!-- /.nav-tabs-custom -->
           </div>
-        </div>
       </div>
     </div>
 
@@ -119,8 +143,8 @@
 </template>
 
 <script>
-  export default {
-    data(){
+export default {
+  data(){
       return {
         fillEditarUsuario: {
           nIdUsuario: this.$attrs.id,
@@ -131,6 +155,17 @@
           cCorreo: '',
           cContrasena: '',
           oFotografia: ''
+        },
+        fillVerUsuario: {
+          nIdUsuario: this.$attrs.id,
+          cPrimerNombre: '',
+          cSegundoNombre: '',
+          cApellido: '',
+          cUsuario: '',
+          cCorreo: '',
+          cContrasena: '',
+          oFotografia: '',
+          cRutaArchivo: '',
         },
         form: new FormData,
         fullscreenLoading: false,
@@ -149,7 +184,12 @@
     mounted() {   
       this.getUsuarioById();
     },
-    methods: {
+    computed: {
+      cNombreCompleto(){
+        return this.fillVerUsuario.cPrimerNombre + ' ' + this.fillVerUsuario.cSegundoNombre + ' ' + this.fillVerUsuario.cApellido;
+      }
+    },
+    methods:{
       getUsuarioById(){
         this.fullscreenLoading = true;
 
@@ -160,25 +200,30 @@
           }
         }).then(response => {
           console.log(response.data);
-          this.fillEditarUsuario.cPrimerNombre = response.data[0].firstname;
-          this.fillEditarUsuario.cSegundoNombre = response.data[0].secondname;
-          this.fillEditarUsuario.cApellido = response.data[0].lastname;
-          this.fillEditarUsuario.cUsuario = response.data[0].username;
-          this.fillEditarUsuario.cCorreo = response.data[0].email;
+          
+          this.getUsuarioEditar(response.data[0]);
+          this.getUsuarioVer(response.data[0]);
+
           this.fullscreenLoading = false;
         })
       },
+      getUsuarioEditar(data){
+        this.fillEditarUsuario.cPrimerNombre = data.firstname;
+        this.fillEditarUsuario.cSegundoNombre = data.secondname;
+        this.fillEditarUsuario.cApellido = data.lastname;
+        this.fillEditarUsuario.cUsuario = data.username;
+        this.fillEditarUsuario.cCorreo = data.email;
+      },
+      getUsuarioVer(data){
+        this.fillVerUsuario.cPrimerNombre = data.firstname;
+        this.fillVerUsuario.cSegundoNombre = data.secondname;
+        this.fillVerUsuario.cApellido = data.lastname;
+        this.fillVerUsuario.cUsuario = data.username;
+        this.fillVerUsuario.cCorreo = data.email;
+        this.fillVerUsuario.cRutaArchivo = data.profile_image;
+      },
       abrirModal(){
         this.modalShow = !this.modalShow;
-      },
-      limpiarCampos(){
-        this.fillEditarUsuario.cPrimerNombre = '';
-        this.fillEditarUsuario.cSegundoNombre = '';
-        this.fillEditarUsuario.cApellido = '';
-        this.fillEditarUsuario.cUsuario = '';
-        this.fillEditarUsuario.cCorreo = '';
-        this.fillEditarUsuario.cContrasena = '';
-        this.fillEditarUsuario.oFotografia = '';
       },
       getFile(e){
         this.fillEditarUsuario.oFotografia = e.target.files[0];
@@ -220,7 +265,7 @@
           'oFotografia': nIdFile
         }).then(response => {
           this.fullscreenLoading = false;
-
+          this.getUsuarioById();
           Swal.fire({
             icon: 'success',
             title: 'Se actualizó el usuario correctamente',
@@ -253,7 +298,7 @@
         return this.error;
       }
     }
-  }
+}
 </script>
 
 <style>

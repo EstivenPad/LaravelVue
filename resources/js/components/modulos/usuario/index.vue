@@ -120,11 +120,11 @@
                             </template>
                           </td>
                           <td>
-                            <router-link class="btn btn-flat btn-primary btn-sm" :to="'/'">
+                            <router-link class="btn btn-flat btn-primary btn-sm" :to="{name: 'usuario.ver', params: {id: item.id }}">
                               <i class="fas fa-folder"></i> Ver
                             </router-link>
                             <template v-if="item.state == 'A'">
-                              <router-link class="btn btn-flat btn-info btn-sm" :to="{ name:'usuario.editar', params: { id: item.id }}">
+                              <router-link class="btn btn-flat btn-info btn-sm" :to="{name:'usuario.editar', params: { id: item.id }}">
                                 <i class="fas fa-pencil-alt"></i> Editar
                               </router-link>
                               <router-link class="btn btn-flat btn-secondary btn-sm" :to="'/'">
