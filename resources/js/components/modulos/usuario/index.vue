@@ -6,7 +6,7 @@
             <h1 class="m-0 text-dark">Usuario</h1>
           </div><!-- /.col -->
         </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
+      </div><!-- /.container-fluid-->
 
       <div class="content container-fluid">
         <div class="card">
