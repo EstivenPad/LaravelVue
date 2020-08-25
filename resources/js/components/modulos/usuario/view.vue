@@ -4,7 +4,7 @@
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1 class="m-0 text-dark">Usuario</h1>
+              <h1 class="m-0 text-dark">Ver Usuario</h1>
             </div><!-- /.col -->
           </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -35,17 +35,17 @@
           <!-- About Me Box -->
           <div class="card card-primary">
             <div class="card-header">
-              <h3 class="card-title">Sobre Mi</h3>
+              <h3 class="card-title">Sobre mi:</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-              <strong><i class="fab fa-mailchimp"></i> Nombre Completo</strong>
+              <strong><i class="fab fa-mailchimp"></i> Nombre Completo:</strong>
 
               <p class="text-muted" v-text="cNombreCompleto"></p>
 
               <hr>
 
-              <strong><i class="fas fa-envelope-open-text"></i> Correo Electrónico</strong>
+              <strong><i class="fas fa-envelope-open-text"></i> Correo Electrónico:</strong>
 
               <p class="text-muted" v-text="this.fillVerUsuario.cCorreo"></p>
             </div>
@@ -55,9 +55,9 @@
         </div>
         <div class="col-md-8">
             <div class="card">
-              <div class="card-header p-2">
+              <div class="card-header p-2 bg-primary">
                 <ul class="nav nav-pills">
-                  <li class="nav-item"><a class="nav-link active" href="#settings" data-toggle="tab">Settings</a></li>
+                  <li class="nav-item"><span class="active">Formulario Editar Usuario</span></li>
                 </ul>
               </div><!-- /.card-header -->
               <div class="card-body">
@@ -103,12 +103,12 @@
                       <div class="form-group row">
                         <label class="col-md-3 col-form-label">Fotografia</label>
                         <div class="col-md-9">
-                          <input type="file" class="form-control" @change="getFile">
+                          <input type="file" @change="getFile">
                         </div>
                       </div>
                       <div class="form-group row">
                         <div class="col-sm-12">
-                          <button class="btn btn-flat btn-info btnFull" @click.prevent="setEditarUsuario" v-loading.fullscreen.lock="fullscreenLoading">Editar</button>
+                          <button class="btn btn-info btnFull" @click.prevent="setEditarUsuario" v-loading.fullscreen.lock="fullscreenLoading">Editar</button>
                         </div>
                       </div>
                     </form>

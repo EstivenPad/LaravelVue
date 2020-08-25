@@ -78,7 +78,7 @@
                       <div class="form-group row">
                         <label class="col-md-3 col-form-label">Fotografia</label>
                         <div class="col-md-9">
-                          <input type="file" class="form-control" @change="getFile">
+                          <input type="file" @change="getFile">
                         </div>
                       </div>
                     </div>
@@ -88,8 +88,8 @@
               <div class="card-footer">
                 <div class="row">
                   <div class="col-md-4 offset-4">
-                    <button class="btn btn-flat btn-info btnWidth" @click.prevent="setRegistrarUsuario" v-loading.fullscreen.lock="fullscreenLoading">Registrar</button>
-                    <button class="btn btn-flat btn-default btnWidth" @click.prevent="limpiarCampos">Limpiar</button>
+                    <button class="btn btn-info btnWidth" @click.prevent="setRegistrarUsuario" v-loading.fullscreen.lock="fullscreenLoading">Registrar</button>
+                    <button class="btn btn-default btnWidth" @click.prevent="limpiarCampos">Limpiar</button>
                   </div>
                 </div>
               </div>
@@ -195,15 +195,15 @@
       setGuardarUsuario(nIdFile){
         var url = '/administracion/usuario/setRegistrarUsuario'
         axios.post(url, {
-          'cPrimerNombre': this.fillCrearUsuario.cPrimerNombre,
-          'cSegundoNombre': this.fillCrearUsuario.cSegundoNombre,
-          'cApellido': this.fillCrearUsuario.cApellido,
-          'cUsuario': this.fillCrearUsuario.cUsuario,
-          'cCorreo': this.fillCrearUsuario.cCorreo,
-          'cContrasena': this.fillCrearUsuario.cContrasena,
-          'oFotografia': nIdFile
+          'firstname': this.fillCrearUsuario.cPrimerNombre,
+          'secondname': this.fillCrearUsuario.cSegundoNombre,
+          'lastname': this.fillCrearUsuario.cApellido,
+          'username': this.fillCrearUsuario.cUsuario,
+          'email': this.fillCrearUsuario.cCorreo,
+          'password': this.fillCrearUsuario.cContrasena,
+          'file_id': nIdFile
         }).then(response => {
-          console.log('Registró Usuario exitosamente');
+          console.log('Se registró el usuario exitosamente');
           this.fullscreenLoading = false;
           this.$router.push('/usuario');
         })

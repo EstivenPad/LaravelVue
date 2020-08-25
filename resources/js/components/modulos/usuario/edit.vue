@@ -153,18 +153,17 @@
       getUsuarioById(){
         this.fullscreenLoading = true;
 
-        var url = '/administracion/usuario/getListarUsuarios'
+        var url = '/administracion/usuario/getUsuarioEditar'
         axios.get(url, {
           params: {
-            'nIdUsuario': this.fillEditarUsuario.nIdUsuario,
+            'id': this.fillEditarUsuario.nIdUsuario,
           }
         }).then(response => {
-          console.log(response.data);
-          this.fillEditarUsuario.cPrimerNombre = response.data[0].firstname;
-          this.fillEditarUsuario.cSegundoNombre = response.data[0].secondname;
-          this.fillEditarUsuario.cApellido = response.data[0].lastname;
-          this.fillEditarUsuario.cUsuario = response.data[0].username;
-          this.fillEditarUsuario.cCorreo = response.data[0].email;
+          this.fillEditarUsuario.cPrimerNombre = response.data.firstname;
+          this.fillEditarUsuario.cSegundoNombre = response.data.secondname;
+          this.fillEditarUsuario.cApellido = response.data.lastname;
+          this.fillEditarUsuario.cUsuario = response.data.username;
+          this.fillEditarUsuario.cCorreo = response.data.email;
           this.fullscreenLoading = false;
         })
       },
@@ -209,24 +208,26 @@
       },
       setGuardarUsuario(nIdFile){
         var url = '/administracion/usuario/setEditarUsuario'
-        axios.post(url, {
-          'nIdUsuario': this.fillEditarUsuario.nIdUsuario,
-          'cPrimerNombre': this.fillEditarUsuario.cPrimerNombre,
-          'cSegundoNombre': this.fillEditarUsuario.cSegundoNombre,
-          'cApellido': this.fillEditarUsuario.cApellido,
-          'cUsuario': this.fillEditarUsuario.cUsuario,
-          'cCorreo': this.fillEditarUsuario.cCorreo,
-          'cContrasena': this.fillEditarUsuario.cContrasena,
-          'oFotografia': nIdFile
+        axios.put(url, {
+          'id': this.fillEditarUsuario.nIdUsuario,
+          'firstname': this.fillEditarUsuario.cPrimerNombre,
+          'secondname': this.fillEditarUsuario.cSegundoNombre,
+          'lastname': this.fillEditarUsuario.cApellido,
+          'username': this.fillEditarUsuario.cUsuario,
+          'email': this.fillEditarUsuario.cCorreo,
+          'password': this.fillEditarUsuario.cContrasena,
+          'file_id': nIdFile
         }).then(response => {
           this.fullscreenLoading = false;
-
+          
           Swal.fire({
             icon: 'success',
             title: 'Se actualizó el usuario correctamente',
             showConfirmButton: false,
             timer: 1500
-          })
+          });
+
+          this.$router.push('/usuario');
         })
       },
       validarRegistrarUsuario(){
