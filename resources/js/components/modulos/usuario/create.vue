@@ -177,9 +177,10 @@
         this.fullscreenLoading = true;
 
         if(!this.fillCrearUsuario.oFotografia || this.fillCrearUsuario.oFotografia == undefined){
-          this.setGuardarUsuario(0);
+          this.setGuardarUsuario();
         }else{
-          this.setRegistrarArchivo();
+          // this.setRegistrarArchivo();
+          this.setGuardarUsuario();
         }
       },
       setRegistrarArchivo(){
@@ -192,17 +193,18 @@
           this.setGuardarUsuario(nIdFile);
         })
       },
-      setGuardarUsuario(nIdFile){
+      setGuardarUsuario(){
+        this.form.append('file', this.fillCrearUsuario.oFotografia)
+        this.form.append("firstname", this.fillCrearUsuario.cPrimerNombre);
+        this.form.append("secondname", this.fillCrearUsuario.cSegundoNombre);
+        this.form.append("lastname", this.fillCrearUsuario.cApellido);
+        this.form.append("username", this.fillCrearUsuario.cUsuario);
+        this.form.append("email", this.fillCrearUsuario.cCorreo);
+        this.form.append("password", this.fillCrearUsuario.cContrasena);
+        const config = { headers: { 'Content-Type': 'multipart/form-data' }}
+  
         var url = '/administracion/usuario/setRegistrarUsuario'
-        axios.post(url, {
-          'firstname': this.fillCrearUsuario.cPrimerNombre,
-          'secondname': this.fillCrearUsuario.cSegundoNombre,
-          'lastname': this.fillCrearUsuario.cApellido,
-          'username': this.fillCrearUsuario.cUsuario,
-          'email': this.fillCrearUsuario.cCorreo,
-          'password': this.fillCrearUsuario.cContrasena,
-          'file_id': nIdFile
-        }).then(response => {
+        axios.post(url, this.form, config).then(response => {
           console.log('Se registró el usuario exitosamente');
           this.fullscreenLoading = false;
           this.$router.push('/usuario');

@@ -54,14 +54,14 @@
                   <tbody>
                     <tr v-for="(item, index) in listarUsuariosPaginated" :key="index">
                       <td>
-                        <template v-if="!item.profile_image">
+                        <template v-if="!item.image">
                           <li class="user-block">
-                            <img src="/img/user8-128x128.jpg" :alt="item.username" class="profile-avatar-img img-fluid img-circle">
+                            <img src="/img/user.png" :alt="item.username" class="profile-avatar-img img-fluid img-circle">
                           </li>
                         </template>
                         <template v-else>
                           <li class="user-block">
-                            <img :src="item.profile_image" :alt="item.username" class="profile-avatar-img img-fluid img-circle">
+                            <img :src="'storage/' + item.image" :alt="'Image'" class="profile-avatar-img img-fluid img-circle">
                           </li>
                         </template>
                       </td>
@@ -145,8 +145,8 @@
           value: 'lastname',
           label: 'Apellido'
         }, {
-          value: 'email',
-          label: 'Correo electronico'
+          value: 'username',
+          label: 'Usuario'
         }, {
           value: 'a',
           label: 'Activo'

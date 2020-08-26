@@ -9,12 +9,6 @@ use App\File;
 
 class FilesController extends Controller
 {
-    public function setRegistrarArchivo(Request $request){        
-        if(!$request->ajax()) return redirect('/');
-
-            
-    }
-
     /*public function setRegistrarArchivo(Request $request){
         $file = $request->file;
         $bandera = Str::random(10);
