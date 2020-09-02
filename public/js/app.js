@@ -3969,9 +3969,10 @@ __webpack_require__.r(__webpack_exports__);
       this.fullscreenLoading = true;
 
       if (!this.fillCrearUsuario.oFotografia || this.fillCrearUsuario.oFotografia == undefined) {
-        this.setGuardarUsuario(0);
+        this.setGuardarUsuario();
       } else {
-        this.setRegistrarArchivo();
+        // this.setRegistrarArchivo();
+        this.setGuardarUsuario();
       }
     },
     setRegistrarArchivo: function setRegistrarArchivo() {
@@ -3991,19 +3992,23 @@ __webpack_require__.r(__webpack_exports__);
         _this.setGuardarUsuario(nIdFile);
       });
     },
-    setGuardarUsuario: function setGuardarUsuario(nIdFile) {
+    setGuardarUsuario: function setGuardarUsuario() {
       var _this2 = this;
 
+      this.form.append('file', this.fillCrearUsuario.oFotografia);
+      this.form.append("firstname", this.fillCrearUsuario.cPrimerNombre);
+      this.form.append("secondname", this.fillCrearUsuario.cSegundoNombre);
+      this.form.append("lastname", this.fillCrearUsuario.cApellido);
+      this.form.append("username", this.fillCrearUsuario.cUsuario);
+      this.form.append("email", this.fillCrearUsuario.cCorreo);
+      this.form.append("password", this.fillCrearUsuario.cContrasena);
+      var config = {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      };
       var url = '/administracion/usuario/setRegistrarUsuario';
-      axios.post(url, {
-        'firstname': this.fillCrearUsuario.cPrimerNombre,
-        'secondname': this.fillCrearUsuario.cSegundoNombre,
-        'lastname': this.fillCrearUsuario.cApellido,
-        'username': this.fillCrearUsuario.cUsuario,
-        'email': this.fillCrearUsuario.cCorreo,
-        'password': this.fillCrearUsuario.cContrasena,
-        'file_id': nIdFile
-      }).then(function (response) {
+      axios.post(url, this.form, config).then(function (response) {
         console.log('Se registró el usuario exitosamente');
         _this2.fullscreenLoading = false;
 
@@ -4480,8 +4485,8 @@ __webpack_require__.r(__webpack_exports__);
         value: 'lastname',
         label: 'Apellido'
       }, {
-        value: 'email',
-        label: 'Correo electronico'
+        value: 'username',
+        label: 'Usuario'
       }, {
         value: 'a',
         label: 'Activo'
@@ -111638,7 +111643,7 @@ var render = function() {
                               _c(
                                 "td",
                                 [
-                                  !item.profile_image
+                                  !item.image
                                     ? [
                                         _c(
                                           "li",
@@ -111648,7 +111653,7 @@ var render = function() {
                                               staticClass:
                                                 "profile-avatar-img img-fluid img-circle",
                                               attrs: {
-                                                src: "/img/user8-128x128.jpg",
+                                                src: "/img/user.png",
                                                 alt: item.username
                                               }
                                             })
@@ -111664,8 +111669,8 @@ var render = function() {
                                               staticClass:
                                                 "profile-avatar-img img-fluid img-circle",
                                               attrs: {
-                                                src: item.profile_image,
-                                                alt: item.username
+                                                src: "storage/" + item.image,
+                                                alt: "Image"
                                               }
                                             })
                                           ]

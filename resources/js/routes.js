@@ -5,8 +5,8 @@ Vue.use(VueRouter)
 
 export default new VueRouter({
     routes: [
-        { path: '/', component: require('./components/modulos/dashboard/index.vue').default },
-        { path: '/pedido', component: require('./components/modulos/pedido/index.vue').default },
+        { path: '/', component: require('./components/modulos/dashboard/index').default },
+        { path: '/pedido', component: require('./components/modulos/pedido/index').default },
         { path: '/cliente', component: require('./components/modulos/cliente/index').default },
         { path: '/categoria', component: require('./components/modulos/categoria/index').default },
         { path: '/producto', component: require('./components/modulos/producto/index').default },

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 use App\Users;
 
 class UsersController extends Controller
@@ -18,7 +20,7 @@ class UsersController extends Controller
         $criterio = $request->criterio;
         
         if($criterio == '' && $filtro != 'i' && $filtro != 'a'){
-            $usuarios = Users::orderBy('id', 'desc')->get();
+            $usuarios = Users::orderBy('id', 'desc')->get();            
         }        
         if($criterio == '' && ($filtro == 'i' || $filtro == 'a')){
             $usuarios = Users::where('state','=',$filtro)->orderBy('id' ,'desc')->get();    
@@ -27,8 +29,6 @@ class UsersController extends Controller
             $usuarios = Users::where($filtro, 'like', '%'.$criterio.'%')->orderBy('id' ,'desc')->get();
         }
 
-        
-        
         return $usuarios;
     }
 
@@ -44,8 +44,12 @@ class UsersController extends Controller
     public function setRegistrarUsuario(Request $request)
     {
         if(!$request->ajax()) return redirect('/');
+        
+        $path = Storage::putFile('public/usuarios', $request->file('file'));
+        $path = substr($path, 7);
 
         $usuario = new Users();
+        $usuario->image = $path;
         $usuario->firstname = $request->firstname;
         $usuario->secondname = $request->secondname;
         $usuario->lastname = $request->lastname;
@@ -64,7 +68,7 @@ class UsersController extends Controller
         if(!$request->ajax()) return redirect('/');
 
         $usuario = Users::findOrFail($request->id);
-
+   
         return $usuario;
     }
 
@@ -83,115 +87,4 @@ class UsersController extends Controller
         $usuario->updated_at = now();
         $usuario->save();
     }
-
-    /*public function getListarUsuarios(Request $request){
-        if(!$request->ajax()) return redirect('/');
-
-        $nIdUsuario = $request->nIdUsuario;
-        $cNombre = $request->cNombre;
-        $cUsuario = $request->cUsuario;
-        $cCorreo = $request->cCorreo;
-        $cEstado = $request->cEstado;
-
-        $nIdUsuario = ($nIdUsuario == NULL) ? ($nIdUsuario = 0) : $nIdUsuario;
-        $cNombre = ($cNombre == NULL) ? ($cNombre = '') : $cNombre;
-        $cUsuario = ($cUsuario == NULL) ? ($cUsuario = '') : $cUsuario;
-        $cCorreo = ($cCorreo == NULL) ? ($cCorreo = '') : $cCorreo;
-        $cEstado = ($cEstado == NULL) ? ($cEstado = '') : $cEstado;
-
-        $rpta = DB::select('call sp_Usuario_getListarUsuarios (?, ?, ?, ?, ?)', 
-                                                                [
-                                                                    $nIdUsuario,
-                                                                    $cNombre,
-                                                                    $cUsuario,
-                                                                    $cCorreo,
-                                                                    $cEstado
-                                                                ]);
-
-        return $rpta;
-    }*/
-
-    /*public function setRegistrarUsuario(Request $request){
-        if(!$request->ajax()) return redirect('/');
-
-        $cPrimerNombre = $request->cPrimerNombre;
-        $cSegundoNombre = $request->cSegundoNombre;
-        $cApellido = $request->cApellido;
-        $cUsuario = $request->cUsuario;
-        $cCorreo = $request->cCorreo;
-        $cContrasena = Hash::make($request->cContresena);
-        $oFotografia = $request->oFotografia;
-
-        $cPrimerNombre = ($cPrimerNombre == NULL) ?  ($cPrimerNombre = '') : $cPrimerNombre;
-        $cSegundoNombre = ($cSegundoNombre == NULL) ?  ($cSegundoNombre = '') : $cSegundoNombre;
-        $cApellido = ($cApellido == NULL) ?  ($cApellido = '') : $cApellido;
-        $cUsuario = ($cUsuario == NULL) ?  ($cUsuario = '') : $cUsuario;
-        $cCorreo = ($cCorreo == NULL) ?  ($cCorreo = '') : $cCorreo;
-        $cContrasena = ($cContrasena == NULL) ?  ($cContrasena = '') : $cContrasena;
-        $oFotografia = ($oFotografia == NULL) ?  ($oFotografia = NULL) : $oFotografia;
-
-        DB::select('call sp_Usuario_setRegistrarUsuario (?, ?, ?, ?, ?, ?, ?)',
-                                                                    [
-                                                                        $cPrimerNombre,
-                                                                        $cSegundoNombre,
-                                                                        $cApellido,
-                                                                        $cUsuario,
-                                                                        $cCorreo,
-                                                                        $cContrasena,
-                                                                        $oFotografia
-                                                                    ]);
-    }*/
-
-    /*public function setEditarUsuario(Request $request){
-        if(!$request->ajax()) return redirect('/');
-
-        $nIdUsuario = $request->nIdUsuario;
-        $cPrimerNombre = $request->cPrimerNombre;
-        $cSegundoNombre = $request->cSegundoNombre;
-        $cApellido = $request->cApellido;
-        $cUsuario = $request->cUsuario;
-        $cCorreo = $request->cCorreo;
-        $cContrasena = $request->cContresena;
-        if($cContrasena != NULL){
-            $cContrasena = Hash::make($cContrasena);
-        }
-        $oFotografia = $request->oFotografia;
-
-        $nIdUsuario = ($nIdUsuario == NULL) ?  ($nIdUsuario = '') : $nIdUsuario;
-        $cPrimerNombre = ($cPrimerNombre == NULL) ?  ($cPrimerNombre = '') : $cPrimerNombre;
-        $cSegundoNombre = ($cSegundoNombre == NULL) ?  ($cSegundoNombre = '') : $cSegundoNombre;
-        $cApellido = ($cApellido == NULL) ?  ($cApellido = '') : $cApellido;
-        $cUsuario = ($cUsuario == NULL) ?  ($cUsuario = '') : $cUsuario;
-        $cCorreo = ($cCorreo == NULL) ?  ($cCorreo = '') : $cCorreo;
-        $cContrasena = ($cContrasena == NULL) ?  ($cContrasena = '') : $cContrasena;
-        $oFotografia = ($oFotografia == NULL) ?  ($oFotografia = NULL) : $oFotografia;
-
-        DB::select('call sp_Usuario_setEditarUsuario (?, ?, ?, ?, ?, ?, ?, ?)',
-                                                                    [
-                                                                        $nIdUsuario,
-                                                                        $cPrimerNombre,
-                                                                        $cSegundoNombre,
-                                                                        $cApellido,
-                                                                        $cUsuario,
-                                                                        $cCorreo,
-                                                                        $cContrasena,
-                                                                        $oFotografia
-                                                                    ]);
-    }*/
-
-    /*public function setCambiarEstadoUsuario(Request $request){
-        if(!$request->ajax()) return redirect('/');
-
-        $nIdUsuario = $request->nIdUsuario;
-        $cEstado = $request->cEstado;
-
-        $nIdUsuario = ($nIdUsuario == NULL) ? ($nIdUsuario = 0) : $nIdUsuario;
-        $cEstado = ($cEstado == NULL) ? ($cEstado = 0) : $cEstado;
-
-        $rpta = DB::select('call sp_Usuario_setCambiarEstadoUsuario (?, ?)',
-                                                                    [
-                                                                        $nIdUsuario,
-                                                                        $cEstado
-                                                                    ]);
-    }*/
 }
